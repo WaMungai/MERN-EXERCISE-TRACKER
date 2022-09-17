@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import axios from 'axios'
 
 export default class CreateUser extends Component {
   constructor(props) {
@@ -21,6 +22,18 @@ export default class CreateUser extends Component {
       username:this.state.username,
     }
     console.log(newUser)
+    axios.get('http://localhost:5000/users/')
+  .then(response => {
+    if (response.data.length > 0) {
+      this.setState({ 
+        users: response.data.map(user => user.username),
+        username: response.data[0].username
+      });
+    }
+  })
+  .catch((error) => {
+    console.log(error);
+  })
     this.setState({username:''})
   }
   render() {
